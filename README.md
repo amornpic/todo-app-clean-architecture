@@ -9,28 +9,30 @@ A simple Todo application built with Go, following clean architecture principles
 - Docker
 
 ## Project Structure
-
+```
 todo-app-clean-architecture/
 ├── domain/ # Enterprise business rules and entities
 ├── usecase/ # Application business rules
 ├── repository/ # Data layer implementations
 ├── api/ # Interface adapters (HTTP handlers)
+```
 
 ## Getting Started
 
 ### 1. Clone the repository
-git clone https://github.com/amornpic/todo-app-clean-architecture.git
-cd todo-app-clean-architecture
+`git clone https://github.com/amornpic/todo-app-clean-architecture.git`
+
+`cd todo-app-clean-architecture`
 
 ### 2. Set up environment variables
-cp .env.example .env
+`cp .env.example .env`
 
 ### 3. Install dependencies
-go mod tidy
+`go mod tidy`
 
 ### 4. Start project
-# Using Docker
-docker-compose up -d
+Using Docker
+`docker-compose up -d`
 
 The server will start on `http://localhost:8080`
 
@@ -40,13 +42,10 @@ API documentation is available via Swagger UI at:
 http://localhost:8080/swagger/index.html
 
 To update Swagger documentation after making API changes:
-swag init
+`swag init`
 
-## Development
-
-### Running Tests
-# Run all tests
-go test ./...
+## Running Tests
+`go test ./...`
 
 ## API Endpoints
 
