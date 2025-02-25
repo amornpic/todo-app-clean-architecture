@@ -15,12 +15,11 @@ type TodoController struct {
 	logger  *slog.Logger
 }
 
-func NewTodoRoter(r *gin.Engine, u domain.TodoUsecase, logger *slog.Logger) {
-	h := &TodoController{usecase: u, logger: logger}
-	r.POST("/todos", h.Create)
-	r.PUT("/todos/:id", h.Update)
-	r.GET("/todos", h.List)
-	r.DELETE("/todos/:id", h.Delete)
+func NewTodoController(usecase domain.TodoUsecase, logger *slog.Logger) *TodoController {
+	return &TodoController{
+		usecase: usecase,
+		logger:  logger,
+	}
 }
 
 // Create creates a new todo

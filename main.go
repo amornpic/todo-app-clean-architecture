@@ -4,16 +4,14 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
-	"todo-app/api/controller"
+	"todo-app/api/route"
 	"todo-app/docs"
 	"todo-app/domain"
-	"todo-app/repository"
-	"todo-app/usecase"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/swaggo/files"
-	"github.com/swaggo/gin-swagger"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -52,17 +50,16 @@ func main() {
 		panic("failed to migrate database: " + err.Error())
 	}
 
-	r := gin.Default()
+	gin := gin.Default()
 	docs.SwaggerInfo.BasePath = ""
-	repo := repository.NewTodoRepo(db, logger)
-	usecase := usecase.NewTodoUsecase(repo, logger)
-	controller.NewTodoRoter(r, usecase, logger)
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	route.Setup(gin, db, logger)
+
+	gin.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	port := getEnv("APP_PORT", "8080")
 	logger.Info("Starting server", "port", port)
-	if err := r.Run(":" + port); err != nil {
+	if err := gin.Run(":" + port); err != nil {
 		logger.Error("Failed to start server", "error", err)
 		panic("failed to start server: " + err.Error())
 	}
