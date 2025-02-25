@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log/slog"
 	"strings"
-	"time"
 	"todo-app/domain"
 
 	"github.com/go-playground/validator/v10"
@@ -27,10 +26,6 @@ func NewTodoUsecase(repo domain.TodoRepository, logger *slog.Logger) domain.Todo
 }
 
 func (u *todoUsecase) Create(todo *domain.Todo) error {
-	if todo.CreatedAt.IsZero() {
-		todo.CreatedAt = time.Now().UTC()
-	}
-
 	if err := u.validate.Struct(todo); err != nil {
 		u.logger.Warn("Validation failed for create", "error", err)
 		return fmt.Errorf("%w: %v", domain.ErrValidationFailed, err)
@@ -60,6 +55,11 @@ func (u *todoUsecase) Update(todo *domain.Todo) error {
 		return domain.ErrNotFound
 	}
 
+	todo.CreatedAt = existing.CreatedAt
+
+	fmt.Println("update todo")
+
+	fmt.Println(todo.CreatedAt, todo.UpdatedAt, todo.ID)
 	if err := u.repo.Update(todo); err != nil {
 		return err // Error already logged in repository
 	}

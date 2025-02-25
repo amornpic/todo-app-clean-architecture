@@ -18,7 +18,8 @@ type Todo struct {
 	ID          uuid.UUID `json:"id" gorm:"type:uuid;primaryKey"`
 	Title       string    `json:"title" gorm:"type:varchar(100);not null" validate:"required,max=100"`
 	Description string    `json:"description" gorm:"type:text" validate:"omitempty"`
-	CreatedAt   time.Time `json:"created_at" gorm:"type:timestamptz;not null"`
+	CreatedAt   time.Time `json:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt   time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 	Image       string    `json:"image" gorm:"type:text" validate:"omitempty,base64"`
 	Status      string    `json:"status" gorm:"type:varchar(20);not null" validate:"required,oneof=IN_PROGRESS COMPLETED"`
 }
